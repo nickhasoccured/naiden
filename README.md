@@ -1,8 +1,8 @@
 <img align="right" height=150 width=150 src="https://i.imgur.com/5sSGwH7.png" /> </p>
 <h1>Naiden</h1>
-<h2>A multi-purpose bot for the PPS Discord</h3>
+A multi-purpose Discord bot used in the Portland Public Schools server.
 
-<h3>Features</h3>
+<h2>Features</h2>
 
 - [ ] Automatic voice-channel creation ("Lair" system)
 - [ ] Counting game
