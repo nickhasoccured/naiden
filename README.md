@@ -4,7 +4,7 @@
 
 <h3>Features</h3>
 
-[ ] Automatic voice-channel creation ("Lair" system)
-[ ] Counting game
-[ ] Reaction Roles
-[ ] Statistics/Leveling
+- [ ] Automatic voice-channel creation ("Lair" system)
+- [ ] Counting game
+- [ ] Reaction Roles
+- [ ] Statistics/Leveling
