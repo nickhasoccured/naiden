@@ -3,6 +3,7 @@
 A multi-purpose Discord bot used in the Portland Public Schools server.
 
 <h2>Features</h2>
+Completed features have checks next to them.
 
 - [ ] Automatic voice-channel creation ("Lair" system)
 - [ ] Counting game
