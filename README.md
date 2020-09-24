@@ -11,6 +11,7 @@ Completed features have their checkboxes filled.
 - [ ] Statistics/Leveling
 
 <h2>📜 Licence</h2>
+
 > Copyright (C) 2020 Nicholas Christopher
 > By contributing to files in this repository, you hereby transfer your copyright to Nicholas Christopher.
 
