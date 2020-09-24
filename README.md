@@ -12,7 +12,7 @@ Completed features have their checkboxes filled.
 
 <h2>📜 Licence</h2>
 
-> Copyright (C) 2020 Nicholas Christopher
+> Copyright (C) 2020 Nicholas Christopher\
 > By contributing to files in this repository, you hereby transfer your copyright to Nicholas Christopher.
 
 Code is licenced under the GNU General Public Licence. A copy of this file is provided at `COPYING.txt`, along with the above notice.
