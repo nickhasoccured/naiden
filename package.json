@@ -1,0 +1,15 @@
+{
+  "name": "naiden",
+  "version": "1.0.0",
+  "description": "A multi-purpose Discord bot used in the Portland Public Schools server.",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later"
+}
