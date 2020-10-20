@@ -1,5 +1,8 @@
 
 {
 	"prefix": "/",
-	"token": "put-your-token-here"
+	"token": "put-your-token-here",
+	"guild": "guild-id",
+	"adminRole": "admin-role-id",
+	"verifiedRole": "verified-role-id"
 }
