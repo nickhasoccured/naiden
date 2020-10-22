@@ -5,6 +5,6 @@ module.exports = {
 	cooldown: 5,
 	args: false,
 	execute(message, args) {
-		message.channel.send('Ping!');
+		message.channel.send(`Ping! \`${Date.now() - message.createdTimestamp}ms\``);
 	},
 };
