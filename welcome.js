@@ -84,20 +84,20 @@ module.exports = {
             if ( await keyv.get(`${message.author.id}_isVerified`) ) return;
 
             // If verification is *not* pending & message is an email
-            if (!await keyv.get(`${message.author.id}_code`) && /^[a-zA-Z0-9\.]+@(pps.net|student.pps.net)$/.test(message.content.trim())) {
+            if (/^[a-zA-Z0-9\.]+@(pps.net|student.pps.net)$/.test(message.content.trim())) {
               // Check if email is already in use
               if (await keyv.get(`${message.content.trim()}_taken`)) {
                 const embed = new Discord.MessageEmbed()
                 	.setColor('#f92921')
-                	.setTitle('An error occured')
-                	.setDescription(`\`${message.content.trim()}\` is already in use.\n\nContact an <@&${adminRole}> if you believe this is an error`);
+                	.setTitle('Email taken')
+                	.setDescription(`\`${message.content.trim()}\` is already in use.\n\nContact an admin if you believe this is an error`);
                 message.channel.send(embed);
               } else {
               emailVerification(message, message.content.trim());
               }
 
               // If message content = code
-            } else if (message.content.toUpperCase().trim() === (await keyv.get(`${message.author.id}_code`))) {
+            } else if (await keyv.get(`${message.author.id}_code`) && message.content.toUpperCase().trim() === (await keyv.get(`${message.author.id}_code`))) {
 
               // Delete code record, and add a record for being verified
               await keyv.delete(`${message.author.id}_code`);
