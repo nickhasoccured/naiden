@@ -22,7 +22,7 @@ module.exports = {
 			.setDescription(`Naiden is a multi-purpose Discord bot used in the Portland Public Schools server. Use \`${prefix}help\` to get a list of commands\n\n<:github:768932901965791322> [**SOURCE CODE**](https://github.com/nickpdx/naiden)`)
       .setThumbnail('https://i.imgur.com/CFgCO1d.png')
 			.addFields(
-				{ name: `Uptime`, value: `Online for ${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`, inline: true },
+				{ name: `Uptime`, value: `Online for ${days} day(s), ${hours} hour(s), ${minutes} minute(s) and ${seconds} seconds`, inline: true },
 				{ name: `Latency`, value: `It took ${Date.now() - message.createdTimestamp} milliseconds for your message to reach me`, inline: true },
 			)
 		message.channel.send(embed);
