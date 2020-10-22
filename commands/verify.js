@@ -7,7 +7,7 @@ module.exports = {
   guildOnly: true,
   cooldown: 5,
   args: true,
-  execute(message, args) {
+  execute(message, args, client) {
 		// Checks that the member running the command has the adminRole (in config.json),
 		// if they don't, give an error to the user, if they do, proceed.
 		if (message.member.roles.cache.has(adminRole)) {

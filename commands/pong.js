@@ -4,7 +4,7 @@ module.exports = {
 	guildOnly: false,
 	cooldown: 5,
 	args: false,
-	execute(message, args) {
+	execute(message, args, client) {
 		message.channel.send(`Ping! \`${Date.now() - message.createdTimestamp}ms\``);
 	},
 };

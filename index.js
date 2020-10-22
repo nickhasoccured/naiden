@@ -86,7 +86,7 @@ client.on('message', message => {
 // Attempts to execute the command from it's file - if it fails to do so,
 // it catches the error, then tells the user to "bug [me] about it".
 	try {
-		command.execute(message, args);
+		command.execute(message, args, client);
 	} catch (error) {
 		console.error(error);
 		const embed = new Discord.MessageEmbed()

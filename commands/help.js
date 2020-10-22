@@ -7,7 +7,7 @@ module.exports = {
 	aliases: ['commands'],
 	usage: '[command name]',
 	cooldown: 5,
-	execute(message, args) {
+	execute(message, args, client) {
 		const embed = new Discord.MessageEmbed()
 			.setColor('#fcdb60')
 			.setTitle('Help Menu')
