@@ -1,7 +1,7 @@
 // Require discord.js, fs (Node.JS Filesystem), and config.json
 const Discord = require('discord.js');
 const fs = require('fs');
-const { prefix, token } = require('./config.json');
+const { prefix, token, guildID, verifiedRole } = require('./config.json');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -14,12 +14,16 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+// Requires modules
+const welcome = require('./welcome.js')
+
 const cooldowns = new Discord.Collection();
 
 // Once the bot is online, it logs that, then sets its status
 // to "Listening to ${prefix}help" - dyanamically reads prefix from config.json
 client.once('ready', () => {
 	console.log('Naiden is Online!');
+	welcome.execute(client);
 	client.user.setActivity(`${prefix}help`, { type: 'LISTENING' })
 });
 

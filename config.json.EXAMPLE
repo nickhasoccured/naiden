@@ -2,7 +2,10 @@
 {
 	"prefix": "/",
 	"token": "put-your-token-here",
-	"guild": "guild-id",
+	"guildID": "guild-id",
 	"adminRole": "admin-role-id",
-	"verifiedRole": "verified-role-id"
+	"verifiedRole": "verified-role-id",
+	"welcomeChannel": "welcome-channel-id",
+	"emailUsername": "email",
+	"emailPassword": "password"
 }

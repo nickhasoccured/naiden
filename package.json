@@ -4,12 +4,15 @@
   "description": "A multi-purpose Discord bot used in the Portland Public Schools server.",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^12.3.1"
+    "@keyv/sqlite": "^2.0.2",
+    "discord.js": "^12.3.1",
+    "keyv": "^4.0.3",
+    "nodemailer": "^6.4.14"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Nicholas Christopher / nick@nickpdx.tk",
   "license": "GPL-3.0-or-later"
 }
