@@ -15,6 +15,7 @@ module.exports = {
 			.addFields(
 				{ name: `${prefix}help`, value: 'Shows you this menu', inline: true },
 				{ name: `${prefix}ping`, value: 'Replies with "Pong!", used to test latency', inline: true },
+				{ name: `${prefix}info`, value: 'Shows information about the bot', inline: true },
 			)
 		message.channel.send(embed);
 	},
