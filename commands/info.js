@@ -23,7 +23,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setColor('#fc54a0')
 			.setTitle('Information')
-			.setDescription(`Naiden is a multi-purpose Discord bot used in the Portland Public Schools server. Use \`${prefix}help\` to get a list of commands\n\n<:github:768932901965791322> [**SOURCE CODE**](https://github.com/nickpdx/naiden)`)
+			.setDescription(`Naiden is a multi-purpose Discord bot used in the Portland Public Schools server. Use \`${prefix}help\` to get a list of commands.\n\n<:github:768932901965791322> [**SOURCE CODE**](https://github.com/nickpdx/naiden)`)
       .setThumbnail('https://i.imgur.com/CFgCO1d.png')
 			.addFields(
 				{ name: `Uptime`, value: `Online for ${days} day(s), ${hours} hour(s), ${minutes} minute(s) and ${seconds} seconds`, inline: true },

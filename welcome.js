@@ -65,7 +65,7 @@ module.exports = {
       // Tell user that the email has been sent
         const embed = new Discord.MessageEmbed()
     			.setColor('#fcdb60')
-    			.setTitle('Pending Verification')
+    			.setTitle('👍 Pending Verification')
     			.setDescription(`Check your email, \`${email}\` for a code. __It expires in one hour__!\n\nIf you entered your email incorrectly, just send it again.`)
     		message.channel.send(embed);
       });
@@ -89,7 +89,7 @@ module.exports = {
               if (await keyv.get(`${message.content.trim()}_taken`)) {
                 const embed = new Discord.MessageEmbed()
                 	.setColor('#f92921')
-                	.setTitle('Email taken')
+                	.setTitle('Email Taken')
                 	.setDescription(`\`${message.content.trim()}\` is already in use.\n\nContact an admin if you believe this is an error`);
                 message.channel.send(embed);
               } else {
@@ -115,14 +115,15 @@ module.exports = {
               // Send DM
               let embed = new Discord.MessageEmbed()
                 .setColor('#16c60c')
-                .setTitle('Success')
-                .setDescription(`You now have access to the rest of the Discord`);
+                .setTitle('✅ Verified')
+                .setDescription(`You now have access to the rest of the Discord, thanks for joining!`);
               message.channel.send(embed);
 
               // Announce in welcomeChannel
               embed = new Discord.MessageEmbed()
               	.setColor('#fc54a0')
-              	.setTitle(`Welcome, ${member.user.username}!`);
+              	.setTitle(`👋 Welcome, ${member.user.username}!`)
+                .setDescription('If you have a question/concern, feel free to message a <@&732337482560962581>');
               const channel = client.channels.cache.get(welcomeChannel);
               channel.send(embed);
             } else if (await keyv.get(`${message.author.id}_code`)) {
@@ -143,23 +144,25 @@ module.exports = {
     client.on('guildMemberAdd', async member => {
       if ( await keyv.get(`${member.user.id}_isVerified`) ) {
         member.roles.add(verifiedRole);
-        let embed = new Discord.MessageEmbed()
-        	.setColor('#16c60c')
-        	.setTitle('Success')
-        	.setDescription('You\'re already verified, welcome back to the PPS Discord')
-        member.user.send(embed);
         // Return message
-        embed = new Discord.MessageEmbed()
+        const embed = new Discord.MessageEmbed()
         	.setColor('#fc54a0')
-        	.setTitle(`Welcome back, ${member.user.username}!`);
+        	.setTitle(`👋 Welcome back, ${member.user.username}!`)
+          .setDescription(`You were already verified, so you were given <@&${verifiedRole}> automatically`);
         const channel = client.channels.cache.get(welcomeChannel);
         channel.send(embed);
       } else {
         const embed = new Discord.MessageEmbed()
           .setColor('#fc54a0')
           .setTitle('👋 Welcome to the PPS Discord')
-          .setDescription('Thanks for joining! Head over to <#732005828613111969> to get started.')
-          .setThumbnail('https://i.imgur.com/KkkA3ua.png');
+          .setDescription('Thanks for joining! Here\'s what you should do to get started...')
+          .addFields(
+    				{ name: `📜 Read the Rules`, value: `We have some rules that we ask you to follow in this server. Check them out in <#732005828613111969>.`, inline: true },
+    				{ name: `✅ Verify`, value: `This server is only available to students & staff members of PPS. Send me your PPS email address to get started!`, inline: true },
+    				{ name: `💬 Chat with others`, value: `Talk in <#732026866864750615>, post memes in <#732828689435197462>, or even hop into a voice chat!`, inline: true },
+            { name: `➕ Add Roles`, value: `Once verified, head over to <#742167005641048176> to change your notification settings and more.`, inline: true },
+            { name: `<a:minecraft_animated:741345683952500847> Join our Minecraft Server`, value: `If you play Minecraft, you can join our private server. Info can be found in <#735972102154223757>`, inline: true },
+    			);
         member.user.send(embed);
       }
     });
