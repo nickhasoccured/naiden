@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const { prefix } = require('../config.json');
+const { prefix, verifiedRole, guildID } = require('../config.json');
 
 module.exports = {
 	name: 'info',
@@ -16,6 +16,10 @@ module.exports = {
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = Math.floor(totalSeconds % 60);
 
+		// Get verifiedRole amount
+		const guild = client.guilds.cache.get(guildID);
+		const role = guild.roles.cache.get(verifiedRole);
+
 		const embed = new Discord.MessageEmbed()
 			.setColor('#fc54a0')
 			.setTitle('Information')
@@ -24,6 +28,7 @@ module.exports = {
 			.addFields(
 				{ name: `Uptime`, value: `Online for ${days} day(s), ${hours} hour(s), ${minutes} minute(s) and ${seconds} seconds`, inline: true },
 				{ name: `Latency`, value: `It took ${Date.now() - message.createdTimestamp} milliseconds for your message to reach me`, inline: true },
+				{ name: `Members`, value: `There are currently ${role.members.size} <@&${verifiedRole}> members`, inline: true },
 			)
 		message.channel.send(embed);
 	},
