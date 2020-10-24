@@ -14,7 +14,7 @@ module.exports = {
   execute(message, args, client) {
 		if (message.member.roles.cache.has(adminRole)) {
       const member = message.mentions.members.first();
-      if (!await keyv.get(`${member.user.id}_isVerified`)) {
+      if ( await keyv.get(`${member.user.id}_isVerified`) ) {
         const userEmail = await keyv.get(`${member.user.id}_email`);
         keyv.delete(`${member.user.id}_isVerified`);
         keyv.delete(`${member.user.id}_email`);
