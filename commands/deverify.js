@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const Keyv = require('keyv');
 
 // Configuration for Keyv (database)
-const keyv = new Keyv('sqlite://database.sqlite');
+const keyv = new Keyv('sqlite://../database.sqlite');
 keyv.on('error', err => console.error('Keyv connection error:', err));
 
 module.exports = {
