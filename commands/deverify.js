@@ -4,7 +4,7 @@ const Keyv = require('keyv');
 const { adminRole } = require('../config.json');
 
 // Configuration for Keyv (database)
-const keyv = new Keyv('sqlite://../database.sqlite');
+const keyv = new Keyv('sqlite://database.sqlite');
 keyv.on('error', err => console.error('Keyv connection error:', err));
 
 module.exports = {
