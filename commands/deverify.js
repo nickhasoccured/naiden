@@ -15,16 +15,16 @@ module.exports = {
   args: true,
   async execute (message, args, client) {
 		if (message.member.roles.cache.has(adminRole)) {
-      const member = message.mentions.members.first();
-      if ( await keyv.get(`${member.user.id}_isVerified`) ) {
-        const userEmail = await keyv.get(`${member.user.id}_email`);
-        await keyv.delete(`${member.user.id}_isVerified`);
-        await keyv.delete(`${member.user.id}_email`);
+      const user = message.mentions.users.first();
+      if ( await keyv.get(`${user.id}_isVerified`) ) {
+        const userEmail = await keyv.get(`${user.id}_email`);
+        await keyv.delete(`${user.id}_isVerified`);
+        await keyv.delete(`${user.id}_email`);
         await keyv.delete(`${userEmail}_taken`);
         const embed = new Discord.MessageEmbed()
         	.setColor('#16c60c')
         	.setTitle('✅ Success')
-        	.setDescription(`Removed verification records for <@${member.user.id}>`);
+        	.setDescription(`Removed verification records for ${user.username}`);
         message.channel.send(embed);
       } else {
         const embed = new Discord.MessageEmbed()
