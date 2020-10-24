@@ -15,7 +15,8 @@ for (const file of commandFiles) {
 }
 
 // Requires modules
-const welcome = require('./welcome.js')
+const welcome = require('./welcome.js');
+const goodbye = require('./goodbye.js');
 
 const cooldowns = new Discord.Collection();
 
@@ -23,7 +24,11 @@ const cooldowns = new Discord.Collection();
 // to "Listening to ${prefix}help" - dyanamically reads prefix from config.json
 client.once('ready', () => {
 	console.log('Naiden is Online!');
+
+	// Run modules
 	welcome.execute(client);
+	goodbye.execute(client);
+
 	client.user.setActivity(`${prefix}help`, { type: 'LISTENING' })
 });
 
