@@ -18,7 +18,7 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
         	.setColor('#16c60c')
-        	.setTitle('Success')
+        	.setTitle('✅ Success')
         	.setDescription(`Verified ${member}`);
         message.channel.send(embed);
       } else {
