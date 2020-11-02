@@ -89,7 +89,7 @@ module.exports = {
               if (await keyv.get(`${message.content.trim()}_taken`)) {
                 const embed = new Discord.MessageEmbed()
                 	.setColor('#f92921')
-                	.setTitle('Email Taken')
+                	.setTitle('❌ Email Taken')
                 	.setDescription(`\`${message.content.trim()}\` is already in use.\n\nContact an admin if you believe this is an error`);
                 message.channel.send(embed);
               } else {
@@ -129,13 +129,13 @@ module.exports = {
             } else if (await keyv.get(`${message.author.id}_code`)) {
               const embed = new Discord.MessageEmbed()
               	.setColor('#f92921')
-              	.setTitle('Invalid Code')
+              	.setTitle('❌ Invalid Code')
               	.setDescription(`That code wasn\'t correct, but you can try again!\n\nIf you entered your email wrong, just send it again.`);
               message.channel.send(embed);
             } else {
               const embed = new Discord.MessageEmbed()
               	.setColor('#f92921')
-              	.setTitle('Invalid Email')
+              	.setTitle('❌ Invalid Email')
               	.setDescription(`That email isn\'t a valid PPS address, make sure it ends in \`@student.pps.net\` OR \`@pps.net\`.`);
               message.channel.send(embed);
             };

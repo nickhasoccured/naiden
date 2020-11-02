@@ -15,30 +15,32 @@ module.exports = {
   args: true,
   async execute (message, args, client) {
 		if (message.member.roles.cache.has(adminRole)) {
-      const user = message.mentions.users.first();
-      if ( await keyv.get(`${user.id}_isVerified`) ) {
-        const userEmail = await keyv.get(`${user.id}_email`);
-        await keyv.delete(`${user.id}_isVerified`);
-        await keyv.delete(`${user.id}_email`);
+
+      if ( await keyv.get(`${args[0]}_isVerified`) ) {
+        const userEmail = await keyv.get(`${args[0]}_email`);
+        await keyv.delete(`${args[0]}_isVerified`);
+        await keyv.delete(`${args[0]}_email`);
         await keyv.delete(`${userEmail}_taken`);
+
         const embed = new Discord.MessageEmbed()
         	.setColor('#16c60c')
         	.setTitle('✅ Success')
-        	.setDescription(`Removed verification records for ${user.username}`);
+        	.setDescription(`Removed verification records for <@${args[0]}>`);
         message.channel.send(embed);
       } else {
         const embed = new Discord.MessageEmbed()
         	.setColor('#f92921')
-        	.setTitle('An error occured')
+        	.setTitle('❌ An error occured')
         	.setDescription(`That user isn't verified`);
         message.channel.send(embed);
       }
     } else {
       const embed = new Discord.MessageEmbed()
       	.setColor('#f92921')
-      	.setTitle('Insufficent Permission')
+      	.setTitle('❌ Insufficent Permission')
       	.setDescription(`That command requires the <@&${adminRole}> role`);
       message.channel.send(embed);
     };
+
 	},
 };

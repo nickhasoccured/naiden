@@ -1,5 +1,10 @@
 const Discord = require('discord.js');
+const Keyv = require('keyv');
 const { adminRole, verifiedRole } = require(`../config.json`);
+
+// Configuration for Keyv (database)
+const keyv = new Keyv('sqlite://database.sqlite');
+keyv.on('error', err => console.error('Keyv connection error:', err));
 
 module.exports = {
 	name: 'verify',
@@ -7,33 +12,41 @@ module.exports = {
   guildOnly: true,
   cooldown: 5,
   args: true,
-  execute(message, args, client) {
-		// Checks that the member running the command has the adminRole (in config.json),
-		// if they don't, give an error to the user, if they do, proceed.
-		if (message.member.roles.cache.has(adminRole)) {
-      const member = message.mentions.members.first();
-      if (!member.roles.cache.has(verifiedRole)) {
-				// Add role
-        member.roles.add(verifiedRole);
+  async execute(message, args, client) {
 
-        const embed = new Discord.MessageEmbed()
+		// Permissions & checking arguments
+		if (message.member.roles.cache.has(adminRole)) {
+			if ( /^[a-zA-Z0-9\.]+@(pps.net|student.pps.net)$/.test(args[1]) ) {
+
+				// If user had a code, delete it
+				if (await keyv.get(`${args[0]}_code`)) {
+					await keyv.delete(`${args[0]}_code`);
+				};
+
+				// Set associated keys in database
+				await keyv.set(`${args[0]}_isVerified`, true);
+				await keyv.set(`${args[0]}_email`, args[1]);
+				await keyv.set(`${args[1]}_taken`, true);
+
+				const embed = new Discord.MessageEmbed()
         	.setColor('#16c60c')
         	.setTitle('✅ Success')
-        	.setDescription(`Verified ${member}`);
+        	.setDescription(`Verified <@${args[0]}>\n**❗ Remember to give them the required roles**`);
         message.channel.send(embed);
-      } else {
-        const embed = new Discord.MessageEmbed()
+			} else {
+				const embed = new Discord.MessageEmbed()
         	.setColor('#f92921')
-        	.setTitle('An error occured')
-        	.setDescription(`That user already has the <@&${verifiedRole}> role`);
+        	.setTitle('❌ An error occured')
+        	.setDescription(`The second argument is not a valid PPS email`);
         message.channel.send(embed);
-      }
-    } else {
-      const embed = new Discord.MessageEmbed()
+			}
+		} else {
+			const embed = new Discord.MessageEmbed()
       	.setColor('#f92921')
-      	.setTitle('Insufficent Permission')
+      	.setTitle('❌ Insufficent Permission')
       	.setDescription(`That command requires the <@&${adminRole}> role`);
       message.channel.send(embed);
-    }
+		};
+
 	},
 };

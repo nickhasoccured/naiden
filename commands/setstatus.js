@@ -32,14 +32,14 @@ module.exports = {
       } else {
         const embed = new Discord.MessageEmbed()
         	.setColor('#f92921')
-        	.setTitle('An error occured')
+        	.setTitle('❌ An error occured')
         	.setDescription(`You didn't provide [a valid activity](https://hastebin.com/raw/vepepegowi) as the first argument`);
         message.channel.send(embed);
       };
     } else {
 			const embed = new Discord.MessageEmbed()
       	.setColor('#f92921')
-      	.setTitle('Insufficent Permission')
+      	.setTitle('❌ Insufficent Permission')
       	.setDescription(`That command requires the <@&${adminRole}> role`);
       message.channel.send(embed);
 		};
