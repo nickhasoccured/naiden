@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
-const { welcomeChannel } = require('./config.json');
+const { welcomeChannel } = require('../config.json');
 
 // Configuration for Keyv (database)
 const keyv = new Keyv('sqlite://database.sqlite');

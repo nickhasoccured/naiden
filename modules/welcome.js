@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
 const nodemailer = require('nodemailer');
-const { guildID, verifiedRole, welcomeChannel, emailUsername, emailPassword, adminRole } = require('./config.json');
+const { guildID, verifiedRole, welcomeChannel, emailUsername, emailPassword, adminRole } = require('../config.json');
 
 // Configuration for Keyv (database)
 const keyv = new Keyv('sqlite://database.sqlite');

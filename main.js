@@ -15,8 +15,8 @@ for (const file of commandFiles) {
 }
 
 // Requires modules
-const welcome = require('./welcome.js');
-const goodbye = require('./goodbye.js');
+const welcome = require('./modules/welcome.js');
+const goodbye = require('./modules/goodbye.js');
 
 const cooldowns = new Discord.Collection();
 

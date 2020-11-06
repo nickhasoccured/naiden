@@ -5,6 +5,7 @@ A multi-purpose Discord bot used in the Portland Public Schools server.
 ## ✨ Features
 Features that have been implemented have their checkbox filled, others are planned.
 
+- [x] Email verification system
 - [ ] Automatic voice-channel creation ("Lair" system)
 - [ ] Counting game
 - [ ] Reaction Roles
@@ -14,4 +15,5 @@ Features that have been implemented have their checkbox filled, others are plann
 
 > Copyright (C) 2020 Nicholas Christopher\
 > By contributing to files in this repository, you hereby agree to transfer your copyright(s) to the above entity.
-<p>Code is licensed under the GNU General Public License (version 3). A copy of this license is provided in the `LICENCE` file, along with the above notice.</p>
+
+Code is licensed under the GNU General Public License (version 3). A copy of this license is provided in the `LICENCE` file, along with the above notice.
