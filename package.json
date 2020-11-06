@@ -7,7 +7,7 @@
     "@keyv/sqlite": "^2.0.2",
     "discord.js": "^12.4.1",
     "keyv": "^4.0.3",
-    "nodemailer": "^6.4.14"
+    "nodemailer": "^6.4.15"
   },
   "repository": {
     "type": "git",
