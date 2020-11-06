@@ -1,19 +1,10 @@
 <img align="right" height=150 width=150 src="https://i.imgur.com/5sSGwH7.png" /></p>
 # Naiden
-A multi-purpose Discord bot used in the Portland Public Schools server.
+Naiden is a multi-purpose Discord bot used in the Portland Public Schools server. It's coded in JavaScript using the [discord.js](https://discord.js.org) library. The code is open-source so that others can view the code & contribute to the project, it's not reccomended to self-host it.
 
 ## ✨ Features
-Features that have been implemented have their checkbox filled, others are planned.
-
-- [x] Email verification system
-- [ ] Automatic voice-channel creation ("Lair" system)
-- [ ] Counting game
-- [ ] Reaction Roles
-- [ ] Statistics/Leveling
+- [x] Email verification system (sends user a code to verify)
 
 ## 📜 License
-
-> Copyright (C) 2020 Nicholas Christopher\
-> By contributing to files in this repository, you hereby agree to transfer your copyright(s) to the above entity.
 
 Code is licensed under the GNU General Public License (version 3). A copy of this license is provided in the `LICENCE` file, along with the above notice.
