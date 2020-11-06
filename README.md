@@ -6,5 +6,4 @@ Naiden is a multi-purpose Discord bot used in the Portland Public Schools server
 - [x] Email verification system (sends user a code to verify)
 
 ## 📜 License
-
-Code is licensed under the GNU General Public License (version 3). A copy of this license is provided in the `LICENCE` file, along with the above notice.
+This project is licensed under the MIT License. You may use code from this respository as long as you follow the license in the `LICENSE` file.

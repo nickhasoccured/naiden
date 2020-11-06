@@ -14,7 +14,7 @@
     "url": "https://github.com/nickpdx/naiden.git"
   },
   "author": "Nicholas Christopher <nick@nickpdx.tk> (https://nickpdx.tk)",
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nickpdx/naiden/issues"
   },
