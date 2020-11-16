@@ -16,6 +16,8 @@ module.exports = {
 				{ name: `${prefix}help`, value: 'Shows you this menu', inline: true },
 				{ name: `${prefix}ping`, value: 'Replies with "Pong!", used to test latency', inline: true },
 				{ name: `${prefix}info`, value: 'Shows information about the bot', inline: true },
+				{ name: `${prefix}refreshverify <@mention|id>`, value: 'Refreshes verification for yourself or the specified member', inline: true },
+				{ name: `${prefix}config [setting] [value]`, value: 'Change settings for current guild', inline: true },
 			)
 		message.channel.send(embed);
 	},
