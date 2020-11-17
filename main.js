@@ -17,6 +17,7 @@ for (const file of commandFiles) {
 const verification = require('./modules/verification');
 const newMember = require('./modules/newMember.js');
 const memberLeave = require('./modules/memberLeave.js');
+const counting = require('./modules/counting.js');
 
 const cooldowns = new Discord.Collection();
 
@@ -29,6 +30,7 @@ client.once('ready', () => {
 	verification.execute(client);
 	newMember.execute(client);
 	memberLeave.execute(client);
+	counting.execute(client);
 
 	client.user.setActivity(`${config.prefix}help`, { type: 'LISTENING' })
 });
@@ -47,7 +49,7 @@ client.on('message', message => {
 	if (!command) return;
 
 	// If the command is for use in-server only, return an error to the user
-	if (command.guildOnly && message.channel.type === 'dm') {
+	if (command.guildOnly && message.channel.type !== 'text') {
 		const embed = new Discord.MessageEmbed()
 			.setColor('#f92921')
 			.setTitle('❌ Not here')

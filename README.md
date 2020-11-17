@@ -9,6 +9,7 @@ Naiden is a multi-purpose Discord bot used in the Portland Public Schools server
 
 ## ✨ Features
 - [x] Email verification system (sends user a code to verify)
+- [x] Counting game
 
 ## 📜 License
 This project is licensed under the MIT License. You may use code from this respository as long as you follow the license in the `LICENSE` file.

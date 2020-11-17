@@ -3,7 +3,7 @@ const db = require('quick.db');
 
 const config = require('../config.json');
 
-const validSettings = ['verifiedRole', 'welcomeChannel'];
+const validSettings = ['verifiedRole', 'welcomeChannel', 'countingChannel'];
 
 module.exports = {
 	name: 'config',
@@ -38,7 +38,8 @@ module.exports = {
 					`Use \`${config.prefix}config [setting] [value]\` to configure a setting, arguments are case sensitive!
 					
 					▫️ \`verifiedRole = ${guildConfig.verifiedRole}\` - ID of the verification role for this server, or \`false\`
-					▫️ \`welcomeChannel = ${guildConfig.welcomeChannel}\` - ID of the channel which welcome messages are sent, or \`false\``
+					▫️ \`welcomeChannel = ${guildConfig.welcomeChannel}\` - ID of the channel which welcome messages are sent, or \`false\`
+					▫️ \`countingChannel = ${guildConfig.countingChannel}\` - ID of the channel where the counting game takes place, or \`false\``
 				);
 			// If there are arguments
 			if (args.length) {
