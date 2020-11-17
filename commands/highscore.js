@@ -5,9 +5,9 @@ const config = require('../config.json');
 
 module.exports = {
 	name: 'highscore',
-	description: 'Shows the current highscore of the server',
+	description: 'Shows the current High Score of the server',
 	usage: '',
-	aliases: [],
+	aliases: ['hscore'],
 	cooldown: 5,
 	args: false,
 	guildOnly: true,

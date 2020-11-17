@@ -5,7 +5,7 @@ const config = require('../config.json');
 
 module.exports = {
 	name: 'nextnumber',
-	description: 'Shows the current highscore of the server',
+	description: 'Says the next number for the server',
 	usage: '',
 	aliases: ['nextnum'],
 	cooldown: 5,

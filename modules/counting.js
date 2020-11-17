@@ -3,11 +3,16 @@ const db = require('quick.db');
 
 const config = require('../config.json');
 
+const lastUser = new Discord.Collection();
+
 module.exports = {
     execute(client) {
         client.on('message', message => {
             if (message.channel.type !== 'text') return;
             if (!/^\d.*$/.test(message.content.trim())) return;
+
+            if (lastUser.get(message.guild.id) == message.author.id) return;
+            lastUser.set(message.guild.id, message.author.id);
 
             const guildCountChannel = db.get(`${message.guild.id}.countingChannel`) || false;
             if (!guildCountChannel) return;
@@ -45,6 +50,7 @@ module.exports = {
                     });
 
                 db.set(`${message.guild.id}.countingNumber`, 0);
+                lastUser.delete(message.guild.id);
 
                 const failEmbed = new Discord.MessageEmbed()
                     .setTitle(`${message.member.displayName} failed at ${currentNumber}`)
