@@ -13,7 +13,7 @@ module.exports = {
 	cooldown: 5,
 	execute(message, args, client) {
 		// Permissions
-		if (message.member.roles.cache.has(adminRole)) {
+		if (message.member.roles.cache.has(config.adminRole)) {
 			editedArg = args[0].toUpperCase();
 			if (editedArg === 'PLAYING' || editedArg === 'WATCHING' || editedArg === 'LISTENING' || editedArg === 'COMPETING') {
 
