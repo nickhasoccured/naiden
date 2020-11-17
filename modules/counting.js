@@ -70,6 +70,8 @@ module.exports = {
             const guildCountChannel = db.get(`${message.guild.id}.countingChannel`) || false;
             if (!guildCountChannel) return;
 
+            if (message.channel.id !== guildCountChannel) return;
+
             const currentNumber = db.get(`${message.guild.id}.countingNumber`);
             const expectedNumber = currentNumber + 1;
 
