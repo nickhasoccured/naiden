@@ -12,7 +12,7 @@ module.exports = {
 	guildOnly: false,
 	mainGuildOnly: false,
 	execute(message, args, client) {
-		const verifyConfirmMessage = new Discord.MessageEmbed()
+		const embed = new Discord.MessageEmbed()
 			.setColor(config.theme.successColor)
 			.setTitle('Pong!')
 			.setDescription(`It took \`${Date.now() - message.createdTimestamp}ms\` for your message to reach me.`);
