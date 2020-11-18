@@ -3,7 +3,6 @@ const db = require('quick.db');
 const nodemailer = require('nodemailer');
 
 const config = require('../config.json');
-const validEmailRegex = new RegExp(config.validEmailRegex, 'i');
 
 // Configuration for nodemailer
 const transporter = nodemailer.createTransport({
@@ -17,9 +16,9 @@ const transporter = nodemailer.createTransport({
 const generateRandString = (length) => {
 	let result = '';
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-	for ( let i = 0; i < length; i++ ) {
-	   result += characters.charAt(Math.floor(Math.random() * characters.length));
-	}
+	for (let i = 0; i < length; i++) {
+		result += characters.charAt(Math.floor(Math.random() * characters.length));
+	};
 	return result;
 };
 
@@ -42,12 +41,14 @@ const emailVerification = (user, email) => {
 		to: email,
 		subject: `Your code is ${userCode}`,
 		text:
-			`Hello,
-		
-		Your verification code is ${userCode} - message this to Naiden in order to confirm your email address. <u>This code will expire in 1 hour</u>.
-		
-		If this wasn't you, safely disregard this email. Your address was entered by mistake.`,
-		html: `Hello,<br><br>Your verification code is <strong>${userCode}</strong> - message this to Naiden in order to confirm your email address.<br><br><u>If this wasn't you, safely disregard this email.</u> Your address was entered by mistake.`
+			`Hello there,
+
+			Somebody (hopefully you) used your email address on the PPS Discord server. If this wasn't you, disregard this email - your address was entered by mistake.
+			
+			Anyway, before we let you in, we have to make sure it's really you. Message the code ${userCode} back to Naiden in order to confirm your identity. 
+			
+			Thanks!`,
+		html: `Hello there,<br><br>Somebody (hopefully you) used your email address on the PPS Discord server. If this wasn't you, disregard this email - your address was entered by mistake.<br><br>Anyway, before we let you in, we have to make sure it's really you. Message the code <strong>${userCode}</strong> back to Naiden in order to confirm your identity. <br><br>Thanks!`
 	};
 
 	// Send email
@@ -132,18 +133,30 @@ module.exports = {
 				return;
 			} else if (/^[a-zA-Z0-9\.]+@(pps.net|student.pps.net)$/.test(message.content.trim().toLowerCase())) {
 				// Message is a valid email address
-				emailVerification(message.author, message.content.trim().toLowerCase());
-				return;
+				const duplicateEmails = db.all().filter(record => (record.data.email === message.content.trim().toLowerCase()) && (record.data.verified === true));
+				if (duplicateEmails.length) {
+					const duplicateEmailMessage = new Discord.MessageEmbed()
+						.setColor('#f92921')
+						.setTitle('❌ Duplicate Email')
+						.setDescription(`That address has already been used for verification. If you believe this is an error, contact a server administrator.`);
+					return message.channel.send(duplicateEmailMessage)
+						.catch((error) => {
+							console.error(`Failed to send message to ${message.author.username}#${message.author.tag} (${message.author.id})
+					* ${error}`);
+						});
+				} else {
+					return emailVerification(message.author, message.content.trim().toLowerCase());
+				};
 			} else if (userCode && message.content.trim().toUpperCase() !== userCode) {
 				// User has a code but it's not valid
-                const invalidCodeMessage = new Discord.MessageEmbed()
-                    .setColor(config.theme.errorColor)
-                    .setTitle('❌ Invalid Code')
-                    .setDescription(
+				const invalidCodeMessage = new Discord.MessageEmbed()
+					.setColor(config.theme.errorColor)
+					.setTitle('❌ Invalid Code')
+					.setDescription(
 						`That code wasn\'t correct, try again!
 						
 						If you lost your code or entered your email wrong, send the address again.`);
-				message.channel.send(invalidCodeMessage)
+				return message.channel.send(invalidCodeMessage)
 					.catch((error) => {
 						console.error(`Failed to send message to ${message.author.username}#${message.author.tag} (${message.author.id})
 						* ${error}`);
@@ -151,10 +164,10 @@ module.exports = {
 			} else {
 				// Nothing else was true (email isn't valid)
 				const invalidEmailMessage = new Discord.MessageEmbed()
-					.setColor('#f92921')
+					.setColor(config.theme.errorColor)
 					.setTitle('❌ Invalid Email')
 					.setDescription(`That email isn\'t a valid PPS address, make sure it ends in \`@student.pps.net\` OR \`@pps.net\`.`);
-				message.channel.send(invalidEmailMessage)
+				return message.channel.send(invalidEmailMessage)
 					.catch((error) => {
 						console.error(`Failed to send message to ${message.author.username}#${message.author.tag} (${message.author.id})
 					* ${error}`);

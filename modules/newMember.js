@@ -10,7 +10,7 @@ module.exports = {
 			const isVerified = db.get(`${member.user.id}.verified`) || false;
 
 			if (isVerified && verifiedRole) {
-				member.roles.add(verifiedRole, 'Verified in database')
+				member.roles.add(verifiedRole, 'User is already verified')
 					.catch((error) => {
 						console.error(`Failed to add verifiedRole (${verifiedRole}) to ${member.user.username}#${member.user.tag} (${member.user.id})
                         * ${error}`);
@@ -18,7 +18,7 @@ module.exports = {
 
 				// Message user
 				const wbDMEmbed = new Discord.MessageEmbed()
-					.setColor(config.theme.general)
+					.setColor(config.theme.generalColor)
 					.setTitle(`👋 Welcome back`)
 					.setDescription(`You're already verified and have access to the rest of the Discord`)
 				member.user.send(wbDMEmbed)
@@ -28,7 +28,7 @@ module.exports = {
 					});
 			} else if (member.guild.id === config.mainGuild) {
 				const embed = new Discord.MessageEmbed()
-					.setColor('#fc54a0')
+					.setColor(config.theme.generalColor)
 					.setTitle('👋 Welcome to the PPS Discord')
 					.setDescription('Thanks for joining! Here\'s what you should do to get started...')
 					.addFields(

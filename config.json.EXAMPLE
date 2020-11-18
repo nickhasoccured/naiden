@@ -1,11 +1,14 @@
-
 {
 	"prefix": "/",
-	"token": "put-your-token-here",
-	"guildID": "guild-id",
-	"adminRole": "admin-role-id",
-	"verifiedRole": "verified-role-id",
-	"welcomeChannel": "welcome-channel-id",
-	"emailUsername": "email",
-	"emailPassword": "password"
+	"token": "TOKEN",
+	"mainGuild": "GUILD-ID",
+	"adminRole": "ROLE-ID",
+	"emailUsername": "USERNAME",
+	"emailPassword": "PASSWORD",
+	"theme": {
+		"generalColor": "#fc54a0",
+		"successColor": "#16c60c",
+		"errorColor": "#f92921",
+		"pendingColor": "#fcdb60"
+	}
 }

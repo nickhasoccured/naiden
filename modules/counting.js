@@ -24,11 +24,10 @@ module.exports = {
             const highScore = db.get(`${message.guild.id}.countingHighScore`) || 0;
 
             if (message.content.trim().startsWith(expectedNumber)) {
-                let reactionEmoji;
+                // React with 🏆 if a high-score, otherwise react with ✅
+                let reactionEmoji = '✅';
                 if (expectedNumber > highScore) {
                     reactionEmoji = '🏆';
-                } else {
-                    reactionEmoji = '✅';
                 };
 
                 message.react(reactionEmoji)
@@ -72,11 +71,11 @@ module.exports = {
 
             if (message.channel.id !== guildCountChannel) return;
 
-            const currentNumber = db.get(`${message.guild.id}.countingNumber`);
+            const currentNumber = db.get(`${message.guild.id}.countingNumber`) || 0;
             const expectedNumber = currentNumber + 1;
 
             const deletionEmbed = new Discord.MessageEmbed()
-                .setTitle(`❗ Message Deleted`)
+                .setTitle(`⚠️ Message Deleted`)
                 .setColor(config.theme.pendingColor)
                 .setDescription(`The next number is ${expectedNumber}`);
             message.channel.send(deletionEmbed)
