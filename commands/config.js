@@ -20,11 +20,8 @@ module.exports = {
 			const currentValidSettings = validSettings.filter(setting => setting === args[0]);
 
 			for (const setting of validSettings) {
-				console.log('1');
-				console.log(setting);
 				if (!(setting in guildConfig)) {
 					db.set(`${message.guild.id}.${setting}`, false);
-					console.log(`${setting} undefined`)
 				};
 			};
 
@@ -58,7 +55,7 @@ module.exports = {
 					embed.setColor(config.theme.successColor);
 					message.channel.send(embed)
 						.catch((error) => {
-							console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
+							console.error(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
 						* ${error}`);
 						});
 
@@ -66,7 +63,7 @@ module.exports = {
 					embed.setColor(config.theme.errorColor);
 					message.channel.send(embed)
 						.catch((error) => {
-							console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
+							console.error(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
 						* ${error}`);
 						});
 				};
@@ -74,7 +71,7 @@ module.exports = {
 				embed.setColor(config.theme.successColor);
 				message.channel.send(embed)
 					.catch((error) => {
-						console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
+						console.error(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
 					* ${error}`);
 					});
 			};
@@ -86,7 +83,7 @@ module.exports = {
 				.setDescription(`That command requires the \`Manage Guild\` permission`);
 			message.channel.send(embed)
 				.catch((error) => {
-					console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
+					console.error(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
 					* ${error}`);
 				});
 		};

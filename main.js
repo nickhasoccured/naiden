@@ -1,7 +1,14 @@
 // Require discord.js, fs (Node.JS Filesystem), and config.json
 const Discord = require('discord.js');
 const fs = require('fs');
+
 const config = require('./config.json');
+
+// Require modules
+const verification = require('./modules/verification');
+const newMember = require('./modules/newMember.js');
+const memberLeave = require('./modules/memberLeave.js');
+const counting = require('./modules/counting.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -14,17 +21,12 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 };
 
-const verification = require('./modules/verification');
-const newMember = require('./modules/newMember.js');
-const memberLeave = require('./modules/memberLeave.js');
-const counting = require('./modules/counting.js');
-
 const cooldowns = new Discord.Collection();
 
 // Once the bot is online, it logs that, then sets its status
 // to "Listening to ${prefix}help" - dyanamically reads prefix from config.json
 client.once('ready', () => {
-	console.log('Naiden is Online!');
+	console.log(`Logged in as ${client.user.tag}`);
 
 	// Run modules
 	verification.execute(client);
@@ -33,6 +35,10 @@ client.once('ready', () => {
 	counting.execute(client);
 
 	client.user.setActivity(`${config.prefix}help`, { type: 'LISTENING' })
+		.catch((error) => {
+			console.error(`Failed to set activity
+			${error}`);
+		});
 });
 
 client.on('message', message => {
