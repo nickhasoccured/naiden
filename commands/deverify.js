@@ -4,6 +4,7 @@ const db = require('quick.db');
 const config = require('../config.json');
 
 module.exports = {
+	"enabled": true,
 	name: 'deverify',
 	description: 'Removes verification from the specified user',
 	guildOnly: true,

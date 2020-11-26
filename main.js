@@ -4,16 +4,19 @@ const fs = require('fs');
 
 const config = require('./config.json');
 
-// Require modules
-const verification = require('./modules/verification');
-const newMember = require('./modules/newMember.js');
-const memberLeave = require('./modules/memberLeave.js');
-const counting = require('./modules/counting.js');
+const client = new Discord.Client({
+	"presence": {
+		"activity": {
+			"name": `${config.prefix}help`,
+			"type": "LISTENING"
+		}
+	}
+});
 
-const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const moduleFiles = fs.readdirSync('./modules').filter(file => file.endsWith('.js'));
 
 // Requires every .js file in /commands
 for (const file of commandFiles) {
@@ -28,17 +31,14 @@ const cooldowns = new Discord.Collection();
 client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}`);
 
-	// Run modules
-	verification.execute(client);
-	newMember.execute(client);
-	memberLeave.execute(client);
-	counting.execute(client);
-
-	client.user.setActivity(`${config.prefix}help`, { type: 'LISTENING' })
-		.catch((error) => {
-			console.error(`Failed to set activity
-			${error}`);
-		});
+	// Execute modules
+	for (const file of moduleFiles) {
+		const module = require(`./modules/${file}`);
+		if (module.startup === true) {
+			module.execute(client);
+			console.log(`Started ${module.name} module`);
+		};
+	};
 });
 
 client.on('message', message => {
@@ -54,12 +54,24 @@ client.on('message', message => {
 
 	if (!command) return;
 
+	if (!command.enabled) {
+		const disabledEmbed = new Discord.MessageEmbed()
+			.setTitle("❌ That command is disabled")
+			.setColor(config.theme.errorColor)
+			.setDescription(`\`${config.prefix}${command.name}\` is disabled! Contact an administrator if you believe this is an error`);
+		return message.channel.send(disabledEmbed)
+			.catch((error) => {
+				console.error(`Failed to send message in #${channel.name} (${channel.id}) in ${channel.guild.name} (${channel.guild.id})
+			* ${error}`);
+			});
+	};
+
 	// If the command is for use in-server only, return an error to the user
 	if (command.guildOnly && message.channel.type !== 'text') {
 		const embed = new Discord.MessageEmbed()
-			.setColor('#f92921')
-			.setTitle('❌ Not here')
-			.setDescription(`That command cannot be used inside DMs`);
+			.setColor(config.theme.errorColor)
+			.setTitle("❌ Not here")
+			.setDescription(`\`${config.prefix}${command.name}\` can only be used inside servers`);
 		return message.channel.send(embed)
 			.catch((error) => {
 				console.error(`Failed to send message in #${channel.name} (${channel.id}) in ${channel.guild.name} (${channel.guild.id})
@@ -69,9 +81,9 @@ client.on('message', message => {
 
 	if (command.mainGuildOnly && message.guild.id !== config.mainGuild) {
 		const embed = new Discord.MessageEmbed()
-			.setColor('#f92921')
-			.setTitle('❌ Not here')
-			.setDescription(`That command can only be used inside the main PPS server`);
+			.setColor(config.theme.errorColor)
+			.setTitle("❌ Not here")
+			.setDescription(`\`${config.prefix}${command.name}\` can only be used inside the main PPS server`);
 		return message.channel.send(embed)
 			.catch((error) => {
 				console.error(`Failed to send message in #${channel.name} (${channel.id}) in ${channel.guild.name} (${channel.guild.id})
@@ -83,9 +95,9 @@ client.on('message', message => {
 	// return an error to the user
 	if (command.args && !args.length) {
 		const embed = new Discord.MessageEmbed()
-			.setColor('#f92921')
-			.setTitle('❌ Incorrect Usage')
-			.setDescription(`You didn't provide arguments`);
+			.setColor(config.theme.errorColor)
+			.setTitle("❌ Incorrect Usage")
+			.setDescription("You didn't provide any arguments");
 		return message.channel.send(embed)
 			.catch((error) => {
 				console.error(`Failed to send message in #${channel.name} (${channel.id}) in ${channel.guild.name} (${channel.guild.id})
@@ -107,8 +119,8 @@ client.on('message', message => {
 		if (now < expirationTime) {
 			const timeLeft = (expirationTime - now) / 1000;
 			const embed = new Discord.MessageEmbed()
-				.setColor('#f92921')
-				.setTitle('🛑 Slow down')
+				.setColor(config.theme.errorColor)
+				.setTitle("🛑 Slow down")
 				.setDescription(`Wait ${timeLeft.toFixed(0)} second(s) before using \`${config.prefix}${command.name}\` again`);
 			return message.channel.send(embed)
 				.catch((error) => {
@@ -126,12 +138,13 @@ client.on('message', message => {
 	try {
 		command.execute(message, args, client);
 	} catch (error) {
-		console.error(error);
-		const embed = new Discord.MessageEmbed()
-			.setColor('#f92921')
-			.setTitle('❌ An error occured')
-			.setDescription(`Contact your server administrator about this issue`);
-		message.channel.send(embed)
+		console.error(`Failed to execute command ${command.name} for user ${message.author.tag} (${message.author.id})
+		* ${error}`);
+		const errorEmbed = new Discord.MessageEmbed()
+			.setColor(config.theme.errorColor)
+			.setTitle("❌ An error occured")
+			.setDescription("Contact an administrator about this issue");
+		message.channel.send(errorEmbed)
 			.catch((error) => {
 				console.error(`Failed to send message in #${channel.name} (${channel.id}) in ${channel.guild.name} (${channel.guild.id})
 				* ${error}`);

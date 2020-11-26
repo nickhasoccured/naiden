@@ -4,6 +4,8 @@ const db = require('quick.db');
 const config = require('../config.json');
 
 module.exports = {
+	"name": "newMember",
+	"startup": true,
 	execute(client) {
 		client.on('guildMemberAdd', member => {
 			const verifiedRole = db.get(`${member.guild.id}.verifiedRole`) || false;

@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const config = require('../config.json');
 
 module.exports = {
+	"enabled": true,
 	name: 'ping',
 	description: 'Test latency of bot',
 	usage: '',

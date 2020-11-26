@@ -6,6 +6,7 @@ const mentionParse = require('../modules/mentionParse.js');
 const config = require(`../config.json`);
 
 module.exports = {
+	"enabled": true,
 	name: 'verify',
 	description: 'Verifies the specified member',
 	guildOnly: true,

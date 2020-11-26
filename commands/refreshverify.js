@@ -6,9 +6,10 @@ const mentionParse = require('../modules/mentionParse.js');
 const config = require('../config.json');
 
 module.exports = {
+	"enabled": true,
 	name: 'refreshverify',
 	description: 'Description',
-	usage: '<@member>',
+	usage: '<member>',
 	aliases: ['verifyrefresh', 'refreshverification', 'verificationrefresh', 'checkverify', 'checkverification', 'verificationcheck', 'verifycheck'],
 	cooldown: 0,
 	args: false,

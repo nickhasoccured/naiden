@@ -45,7 +45,7 @@ const emailVerification = (user, email) => {
 
 			Somebody (hopefully you) used your email address on the PPS Discord server. If this wasn't you, disregard this email - your address was entered by mistake.
 			
-			Anyway, before we let you in, we have to make sure it's really you. Message the code ${userCode} back to Naiden in order to confirm your identity. 
+			Anyway, before we let you in, we have to make sure it's really you. Message the code ${userCode} back to Naiden in order to confirm your identity.
 			
 			Thanks!`,
 		html: `Hello there,<br><br>Somebody (hopefully you) used your email address on the PPS Discord server. If this wasn't you, disregard this email - your address was entered by mistake.<br><br>Anyway, before we let you in, we have to make sure it's really you. Message the code <strong>${userCode}</strong> back to Naiden in order to confirm your identity. <br><br>Thanks!`
@@ -76,6 +76,8 @@ const emailVerification = (user, email) => {
 };
 
 module.exports = {
+	"name": "verification",
+	"startup": true,
 	execute(client) {
 		client.on('message', message => {
 			// If the message is not in a DM, return
@@ -83,8 +85,12 @@ module.exports = {
 			if (message.author.bot) return;
 			if (message.channel.type !== 'dm') return;
 
-			const guild = client.guilds.cache.get(config.mainGuild);
-			if (!guild.members.cache.has(message.author.id)) return;
+			const verifiedRole = db.get(`${guild.id}.verifiedRole`);
+			if (!verifiedRole) return;
+
+			const guild = client.guilds.resolve(config.mainGuild);
+			const member = guild.members.resolve(message.author.id);
+			if (!member) return;
 
 			const isVerified = db.get(`${message.author.id}.verified`) || false;
 			if (isVerified) return;
@@ -97,9 +103,6 @@ module.exports = {
 
 			if (userCode && message.content.trim().toUpperCase() == userCode) {
 				// Message is a valid code
-				const member = guild.members.cache.get(message.author.id);
-				const verifiedRole = db.get(`${guild.id}.verifiedRole`);
-
 				// Add verification role in main guild
 				member.roles.add(verifiedRole)
 					.catch((error) => {
@@ -119,7 +122,7 @@ module.exports = {
 					});
 
 				// Send welcome message
-				const channel = guild.channels.cache.get(db.get(`${guild.id}.welcomeChannel`)) || false;
+				const channel = guild.channels.resolve(db.get(`${guild.id}.welcomeChannel`)) || false;
 				if (channel) {
 					const welcomeMessage = new Discord.MessageEmbed()
 						.setColor(config.theme.generalColor)

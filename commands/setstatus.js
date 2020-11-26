@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const config = require('../config.json');
 
 module.exports = {
+	"enabled": true,
 	name: 'setstatus',
 	description: 'Sets the status of the bot.',
 	aliases: ['setactivity'],

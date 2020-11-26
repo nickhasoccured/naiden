@@ -4,6 +4,7 @@ const db = require('quick.db');
 const config = require('../config.json');
 
 module.exports = {
+	"enabled": true,
 	name: 'highscore',
 	description: 'Shows the current High Score of the server',
 	usage: '',

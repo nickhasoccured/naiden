@@ -6,6 +6,8 @@ const config = require('../config.json');
 const lastUser = new Discord.Collection();
 
 module.exports = {
+    "name": "counting",
+    "startup": true,
     execute(client) {
         client.on('message', message => {
             if (message.channel.type !== 'text') return;

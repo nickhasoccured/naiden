@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const { prefix } = require('../config.json');
 
 module.exports = {
+	"enabled": true,
 	name: 'help',
 	description: 'List all commands',
 	aliases: ['commands'],
