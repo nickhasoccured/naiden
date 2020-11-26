@@ -85,12 +85,12 @@ module.exports = {
 			if (message.author.bot) return;
 			if (message.channel.type !== 'dm') return;
 
-			const verifiedRole = db.get(`${guild.id}.verifiedRole`);
-			if (!verifiedRole) return;
-
 			const guild = client.guilds.resolve(config.mainGuild);
 			const member = guild.members.resolve(message.author.id);
 			if (!member) return;
+
+			const verifiedRole = db.get(`${guild.id}.verifiedRole`);
+			if (!verifiedRole) return;
 
 			const isVerified = db.get(`${message.author.id}.verified`) || false;
 			if (isVerified) return;
