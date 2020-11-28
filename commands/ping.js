@@ -1,13 +1,14 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 
-const config = require('../config.json');
+const config = require("../config.json");
 
 module.exports = {
-	"enabled": true,
-	name: 'ping',
-	description: 'Test latency of bot',
-	usage: '',
-	aliases: ['pong'],
+	enabled: true,
+	hidden: false,
+	name: "ping",
+	description: "Test latency of bot",
+	usage: "",
+	aliases: ["pong"],
 	cooldown: 5,
 	args: false,
 	guildOnly: false,
@@ -15,12 +16,12 @@ module.exports = {
 	execute(message, args, client) {
 		const embed = new Discord.MessageEmbed()
 			.setColor(config.theme.successColor)
-			.setTitle('Pong!')
-			.setDescription(`It took \`${Date.now() - message.createdTimestamp}ms\` for your message to reach me.`);
-		message.channel.send(embed)
-			.catch((error) => {
-				console.error(`Failed to send message to ${message.author.username}#${message.author.tag} (${message.author.id})
-				* ${error}`);
-			});
+			.setTitle("Pong!")
+			.setDescription(
+				`It took \`${
+					Date.now() - message.createdTimestamp
+				}ms\` for your message to reach me.`
+			);
+		return message.channel.send(embed);
 	},
 };

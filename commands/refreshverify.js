@@ -1,87 +1,91 @@
-const Discord = require('discord.js')
-const db = require('quick.db');
+const Discord = require("discord.js");
+const db = require("quick.db");
 
-const mentionParse = require('../modules/mentionParse.js');
+const mentionParse = require("../modules/mentionParse.js");
 
-const config = require('../config.json');
+const config = require("../config.json");
 
 module.exports = {
-	"enabled": true,
-	name: 'refreshverify',
-	description: 'Description',
-	usage: '<member>',
-	aliases: ['verifyrefresh', 'refreshverification', 'verificationrefresh', 'checkverify', 'checkverification', 'verificationcheck', 'verifycheck'],
-	cooldown: 0,
+	enabled: true,
+	hidden: false,
+	name: "refreshverify",
+	description: "Refresh verification roles for someone",
+	usage: "<member>",
+	aliases: ["verifyrefresh"],
+	cooldown: 10,
 	args: false,
 	guildOnly: true,
+	mainGuildOnly: false,
 	execute(message, args, client) {
+		const verifiedRole = db.get(`${message.guild.id}.verifiedRole`);
+		if (!verifiedRole) {
+			const verificationDisabledEmbed = new Discord.MessageEmbed()
+				.setColor(config.theme.errorColor)
+				.setTitle("❌ Not here")
+				.setDescription(
+					`This server doesn't have the verification system enabled, contact an administrator if this is an error`
+				);
+			return message.channel.send(verificationDisabledEmbed);
+		}
 
-		let specifiedUser;
+		let member;
 		if (args[0]) {
-			specifiedUser = mentionParse(args[0], 'member', true, client, message.guild);
+			const userID = mentionParse.execute(args[0], "user");
+			member = message.guild.members.resolve(userID);
 
-			if (!specifiedUser) {
-				const embed = new Discord.MessageEmbed()
+			if (!member) {
+				const mentionFailEmbed = new Discord.MessageEmbed()
 					.setColor(config.theme.errorColor)
-					.setTitle('❌ Incorrect Usage')
-					.setDescription(`The member you specified isn't in this server, or your mention is invalid.`);
-				return message.channel.send(embed)
+					.setTitle("❌ Incorrect Usage")
+					.setDescription(
+						`The member you specified isn't in this server, or your mention is invalid.`
+					);
+				return message.channel.send(mentionFailEmbed);
+			}
+		} else {
+			member = message.member;
+		}
+
+		const isVerified = db.get(`${member.user.id}.verified`);
+		if (isVerified) {
+			if (!member.roles.cache.has(verifiedRole)) {
+				member.roles
+					.add(verifiedRole)
+					.then((result) => {
+						const embed = new Discord.MessageEmbed()
+							.setColor(config.theme.successColor)
+							.setTitle("✅ Success")
+							.setDescription(
+								`<@${member.user.id}> has been given verification roles`
+							);
+						return message.channel.send(embed);
+					})
 					.catch((error) => {
-						message.channel.send(embed)
-							.catch((error) => {
-								console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
-							* ${error}`);
-							});
+						console.error(`Failed to add verifiedRole (${verifiedRole}) to ${member.user.tag} (${member.user.id}) in server ${member.guild.name} (${member.guild.id})
+						* ${error}`);
+						const roleFailEmbed = new Discord.MessageEmbed()
+							.setColor(config.theme.errorColor)
+							.setTitle("❌ An error occured")
+							.setDescription(
+								`Couldn't add verification role to <@${member.user.id}>, contact an administrator about this issue`
+							);
+						return message.channel.send(roleFailEmbed);
 					});
-			};
+			} else {
+				const embed = new Discord.MessageEmbed()
+					.setColor(config.theme.pendingColor)
+					.setTitle("👍 Success")
+					.setDescription(
+						`<@${member.user.id}> is already verified, nothing changed`
+					);
+				return message.channel.send(embed);
+			}
 		} else {
-			specifiedUser = message.author.id;
-		};
-
-		const member = message.guild.members.cache.get(specifiedUser);
-
-		const isVerified = db.get(`${member.user.id}.verified`) || false;
-		const verifiedRole = db.get(`${message.guild.id}.verifiedRole`) || false;
-
-		if (isVerified && verifiedRole && !member.roles.cache.has(verifiedRole)) {
-			member.roles.add(verifiedRole)
-				.catch((error) => {
-					console.error(`Failed to give verifiedRole (${verifiedRole}) to ${member.user.username}#${member.user.tag} (${member.user.id}) in ${message.guild.name} (${message.guild.id})
-					* ${error}`)
-					const embed = new Discord.MessageEmbed()
-						.setColor(config.theme.errorColor)
-						.setTitle('❌ An error occured')
-						.setDescription(`Contact your server administrator about this issue.`);
-					return message.channel.send(embed)
-						.catch((error) => {
-							message.channel.send(embed)
-								.catch((error) => {
-									console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
-									* ${error}`);
-								});
-						});
-				})
-				.then((value) => {
-					const embed = new Discord.MessageEmbed()
-						.setColor(config.theme.successColor)
-						.setTitle('✅ Success')
-						.setDescription(`Refreshed verification for ${member.displayName}, they're now verified!`)
-					message.channel.send(embed)
-						.catch((error) => {
-							console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
-							* ${error}`);
-						});
-				});
-		} else {
-			const embed = new Discord.MessageEmbed()
-				.setColor(config.theme.pendingColor)
-				.setTitle('👍 Success')
-				.setDescription(`Refreshed verification for ${member.displayName}, nothing changed.`);
-			message.channel.send(embed)
-				.catch((error) => {
-					console.log(`Failed to send message in #${message.channel.name} (${message.channel.id}) in ${message.guild.name} (${message.guild.id})
-				* ${error}`);
-				});
-		};
+			const notVerifiedEmbed = new Discord.MessageEmbed()
+				.setColor(config.theme.errorColor)
+				.setTitle("❌ An error occured")
+				.setDescription(`That user isn't verified, nothing changed`);
+			return message.channel.send(notVerifiedEmbed);
+		}
 	},
 };

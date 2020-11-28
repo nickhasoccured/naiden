@@ -1,18 +1,19 @@
-const Discord = require('discord.js')
+const Discord = require('discord.js');
 const db = require('quick.db');
 
 const config = require('../config.json');
 
 module.exports = {
-	"enabled": true,
-	"name": "name",
-	"description": "Description",
-	"usage": "",
-	"aliases": [],
-	"cooldown": 3,
-	"args": false,
-	"guildOnly": false,
-	"mainGuildOnly": false,
+	enabled: true,
+	hidden: false,
+	name: "name",
+	description: "Description",
+	usage: "",
+	aliases: [],
+	cooldown: 3,
+	args: false,
+	guildOnly: false,
+	mainGuildOnly: false,
 	execute(message, args, client) {
 		// Code here
 	},

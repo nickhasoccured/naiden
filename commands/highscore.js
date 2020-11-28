@@ -1,14 +1,15 @@
-const Discord = require('discord.js')
-const db = require('quick.db');
+const Discord = require("discord.js");
+const db = require("quick.db");
 
-const config = require('../config.json');
+const config = require("../config.json");
 
 module.exports = {
-	"enabled": true,
-	name: 'highscore',
-	description: 'Shows the current High Score of the server',
-	usage: '',
-	aliases: ['hscore'],
+	enabled: true,
+	hidden: false,
+	name: "highscore",
+	description: "Shows the current High Score of the server",
+	usage: "",
+	aliases: ["hscore"],
 	cooldown: 5,
 	args: false,
 	guildOnly: true,
@@ -18,10 +19,6 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setTitle(`🏆 The current counting High Score is **${highscore}**!`)
 			.setColor(config.theme.successColor);
-		message.channel.send(embed)
-			.catch((error) => {
-				console.error(`Failed to send message in #${channel.name} (${channel.id}) in ${channel.guild.name} (${channel.guild.id})
-			* ${error}`);
-			});
+		message.channel.send(embed);
 	},
 };

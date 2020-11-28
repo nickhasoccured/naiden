@@ -1,27 +1,89 @@
-const Discord = require('discord.js')
-const { prefix } = require('../config.json');
+const Discord = require("discord.js");
+const db = require("quick.db");
+
+const config = require("../config.json");
 
 module.exports = {
-	"enabled": true,
-	name: 'help',
-	description: 'List all commands',
-	aliases: ['commands'],
-	usage: '',
+	enabled: true,
+	hidden: false,
+	name: "help",
+	description: "Shows a list of all commands",
+	usage: "<command>",
+	aliases: ["commands"],
 	cooldown: 5,
+	args: false,
+	guildOnly: false,
+	mainGuildOnly: false,
 	execute(message, args, client) {
-		const embed = new Discord.MessageEmbed()
-			.setColor('#fcdb60')
-			.setTitle('Help Menu')
-			.setDescription('Arguments surrounded in `<>` are __optional__, and arguments surrounded in `[]` are __required__. Most commands can also be messaged to me directly!')
-			.addFields(
-				{ name: `${prefix}help`, value: 'Shows you this menu', inline: true },
-				{ name: `${prefix}ping`, value: 'Replies with "Pong!", used to test latency', inline: true },
-				{ name: `${prefix}info`, value: 'Shows information about the bot', inline: true },
-				{ name: `${prefix}refreshverify <@mention|id>`, value: 'Refreshes verification for yourself or the specified member', inline: true },
-				{ name: `${prefix}config [setting] [value]`, value: 'Change settings for current guild', inline: true },
-				{ name: `${prefix}highscore`, value: 'Shows the current High Score of the server', inline: true },
-				{ name: `${prefix}nextnumber`, value: 'Says the next number for the server', inline: true },
-			)
-		message.channel.send(embed);
+		if (args.length) {
+			const commandName = args[0].toLowerCase();
+			const command =
+				client.commands.get(commandName) ||
+				client.commands.find(
+					(command) =>
+						command.aliases && command.aliases.includes(commandName)
+				);
+
+			if (!command || command.disabled) {
+				const noCommandEmbed = new Discord.MessageEmbed()
+					.setTitle(`❌ That command doesn't exist or it's disabled`)
+					.setColor(config.theme.errorColor)
+					.setDescription(
+						"Contact an administrator if this is an error"
+					);
+				return message.channel.send(noCommandEmbed);
+			}
+
+			let description = `▫️ **DESCRIPTION**: ${command.description}`;
+
+			if (command.usage) {
+				description += `\n▫️ **USAGE**: \`${config.prefix}${command.name} ${command.usage}\``;
+			}
+
+			if (command.aliases.length) {
+				let formattedAliases = [];
+				command.aliases.forEach((alias) => {
+					formattedAliases.push(`\`${config.prefix}${alias}\``);
+				});
+
+				description =
+					description +
+					`\n▫️ **ALIASES**: ${formattedAliases.join(", ")}`;
+			}
+
+			if (command.mainGuildOnly) {
+				description =
+					"**❗ This command can only be used inside the main PPS server**\n\n" +
+					description;
+			} else if (command.guildOnly) {
+				description =
+					"**❗ This command can only be used inside servers**\n\n" +
+					description;
+			}
+
+			const commandEmbed = new Discord.MessageEmbed()
+				.setTitle(`Help for \`${config.prefix}${command.name}\``)
+				.setColor(config.theme.pendingColor)
+				.setDescription(description);
+
+			return message.channel.send(commandEmbed);
+		} else {
+			let commandList;
+
+			client.commands.each((command) => {
+				if (command.enabled && !command.hidden) {
+					commandList += `\n${config.prefix}${command.name} ${command.usage}`;
+				}
+			});
+
+			const commandsEmbed = new Discord.MessageEmbed()
+				.setTitle(`Help`)
+				.setColor(config.theme.pendingColor)
+				.setDescription(`Here's a list of all commands you can use. Arguments in \`[]\` are required, while arguments in \`<>\` are optional. You can also use \`${config.prefix}help <command>\` to get help for a specific command.
+				
+				\`\`\`${commandList}\`\`\``);
+
+			return message.channel.send(commandsEmbed);
+		}
 	},
 };
