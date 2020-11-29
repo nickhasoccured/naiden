@@ -6,9 +6,9 @@
 	"emailUsername": "USERNAME",
 	"emailPassword": "PASSWORD",
 	"theme": {
-		"generalColor": "#fc54a0",
-		"successColor": "#16c60c",
-		"errorColor": "#f92921",
-		"pendingColor": "#fcdb60"
+		"generalColor": "#FF69B4",
+		"successColor": "#32CD32",
+		"errorColor": "#FF0000",
+		"pendingColor": "#FFF04D"
 	}
 }

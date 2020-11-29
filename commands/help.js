@@ -63,7 +63,7 @@ module.exports = {
 
 			const commandEmbed = new Discord.MessageEmbed()
 				.setTitle(`Help for \`${config.prefix}${command.name}\``)
-				.setColor(config.theme.pendingColor)
+				.setColor(config.theme.successColor)
 				.setDescription(description);
 
 			return message.channel.send(commandEmbed);
@@ -78,7 +78,7 @@ module.exports = {
 
 			const commandsEmbed = new Discord.MessageEmbed()
 				.setTitle(`Help`)
-				.setColor(config.theme.pendingColor)
+				.setColor(config.theme.successColor)
 				.setDescription(`Here's a list of all commands you can use. Arguments in \`[]\` are required, while arguments in \`<>\` are optional. You can also use \`${config.prefix}help <command>\` to get help for a specific command.
 				
 				\`\`\`${commandList}\`\`\``);
