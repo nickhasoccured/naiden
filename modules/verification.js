@@ -175,10 +175,10 @@ module.exports = {
 					);
 				if (duplicateEmails.length) {
 					const duplicateEmailMessage = new Discord.MessageEmbed()
-						.setColor("#f92921")
+						.setColor(config.theme.errorColor)
 						.setTitle("❌ Duplicate Email")
 						.setDescription(
-							`That address has already been used for verification. If you believe this is an error, contact a server administrator.`
+							`That address has already been used for verification. If this is an error, contact an administrator.`
 						);
 					return message.channel
 						.send(duplicateEmailMessage)
