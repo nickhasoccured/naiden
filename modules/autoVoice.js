@@ -12,7 +12,7 @@ const possesiveFormOf = (string) => {
 
 module.exports = {
 	name: "autoVoice",
-	startup: false,
+	startup: true,
 	execute(client) {
 		client.on("voiceStateUpdate", async (oldState, newState) => {
 			const guild = newState.guild;
