@@ -1,4 +1,3 @@
-// Require discord.js, fs (Node.JS Filesystem), and config.json
 const Discord = require("discord.js");
 const fs = require("fs");
 
@@ -22,7 +21,6 @@ const moduleFiles = fs
 	.readdirSync("./modules")
 	.filter((file) => file.endsWith(".js"));
 
-// Requires every .js file in /commands
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command);
@@ -30,8 +28,6 @@ for (const file of commandFiles) {
 
 const cooldowns = new Discord.Collection();
 
-// Once the bot is online, it logs that, then sets its status
-// to "Listening to ${prefix}help" - dyanamically reads prefix from config.json
 client.once("ready", () => {
 	console.log(`Logged in as ${client.user.tag}`);
 
@@ -46,8 +42,6 @@ client.once("ready", () => {
 });
 
 client.on("message", (message) => {
-	// Check if message DOESN'T start with prefix, or if the message author is a bot.
-	// If either are true, return.
 	if (!message.content.startsWith(config.prefix) || message.author.bot)
 		return;
 
@@ -57,7 +51,8 @@ client.on("message", (message) => {
 	const command =
 		client.commands.get(commandName) ||
 		client.commands.find(
-			(command) => command.aliases && command.aliases.includes(commandName)
+			(command) =>
+				command.aliases && command.aliases.includes(commandName)
 		);
 
 	if (!command) return;
@@ -75,7 +70,6 @@ client.on("message", (message) => {
 		});
 	}
 
-	// If the command is for use in-server only, return an error to the user
 	if (command.guildOnly && message.channel.type !== "text") {
 		const embed = new Discord.MessageEmbed()
 			.setColor(config.theme.errorColor)
@@ -102,8 +96,6 @@ client.on("message", (message) => {
 		});
 	}
 
-	// If the command requires arguments && the message contains no arguments,
-	// return an error to the user
 	if (command.args && !args.length) {
 		const embed = new Discord.MessageEmbed()
 			.setColor(config.theme.errorColor)
@@ -147,8 +139,6 @@ client.on("message", (message) => {
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-	// Attempts to execute the command from it's file - if it fails to do so,
-	// it catches the error, then tells the user to "bug [me] about it".
 	try {
 		command.execute(message, args, client);
 	} catch (error) {
