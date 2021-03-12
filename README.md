@@ -1,3 +1,6 @@
+# This project has been abandoned!
+Naiden was my first real project. I knew very little about JS back then, so I'm there's plenty of bugs here. It's also not being actively used anymore, so I'm archiving this repository.
+
 <img align="right" height=150 width=150 src="https://i.imgur.com/5sSGwH7.png" /></p>
 # Naiden
 
